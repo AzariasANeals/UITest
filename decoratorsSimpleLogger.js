@@ -1,3 +1,5 @@
+/* This is a SimpleLogger function that will log to the console when a class is instantiated
+ The output should be */
 var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
     var useValue = arguments.length > 2;
     for (var i = 0; i < initializers.length; i++) {
@@ -36,41 +38,99 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 function SimpleLogger(logger) {
     console.log("Calling ".concat(logger.name, "."));
 }
-function enumerable(value) {
-    return function (target, propertyKey, descriptor) {
-        descriptor.enumerable = value;
-        target.enumerable = value;
-        propertyKey = "hello";
+/*This is a method decorator that will log method calls of MyTestClass function*/
+function LogMethod(target, context) {
+    var methodName = String(context.name);
+    var replacementMethod = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        console.log('Inside method decorator');
+        var result = target.call.apply(target, __spreadArray([this], args, false));
+        return result;
     };
+    return replacementMethod;
+}
+;
+/* This is a readonly function. It assigns a value to a property that cannot be changed or
+modified once set.*/
+function readOnly(target, context) {
+    var result = {
+        get: function () {
+            return target.get.call(this);
+        },
+        set: function () {
+            throw new Error("Cannot assign to read only property '".concat(String(context.name), "'."));
+        },
+    };
+    return result;
 }
 var MyTestClass = function () {
+    var _MyTestClass_serId_accessor_storage;
     var _classDecorators = [SimpleLogger];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
     var _instanceExtraInitializers = [];
-    var _SimpleLogger_decorators;
+    var _serId_decorators;
+    var _serId_initializers = [];
+    var _serId_extraInitializers = [];
+    var _greet_decorators;
     var MyTestClass = _classThis = /** @class */ (function () {
         function MyTestClass_1(id, v) {
-            this.id = __runInitializers(this, _instanceExtraInitializers);
+            _MyTestClass_serId_accessor_storage.set(this, (__runInitializers(this, _instanceExtraInitializers), __runInitializers(this, _serId_initializers, 243)));
+            this.id = __runInitializers(this, _serId_extraInitializers);
             this.id = id;
             this.value = v;
             console.log("Id: ".concat(this.id));
             console.log("Value: ".concat(this.value));
         }
-        MyTestClass_1.prototype.SimpleLogger = function () {
-            return "Hello!";
+        Object.defineProperty(MyTestClass_1.prototype, "serId", {
+            get: function () { return __classPrivateFieldGet(this, _MyTestClass_serId_accessor_storage, "f"); },
+            set: function (value) { __classPrivateFieldSet(this, _MyTestClass_serId_accessor_storage, value, "f"); },
+            enumerable: false,
+            configurable: true
+        });
+        MyTestClass_1.prototype.greet = function () {
+            return "Hello, " + this.value;
+        };
+        MyTestClass_1.prototype.getValue = function () {
+            return this.value;
         };
         return MyTestClass_1;
     }());
+    _MyTestClass_serId_accessor_storage = new WeakMap();
     __setFunctionName(_classThis, "MyTestClass");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-        _SimpleLogger_decorators = [enumerable(false)];
-        __esDecorate(_classThis, null, _SimpleLogger_decorators, { kind: "method", name: "SimpleLogger", static: false, private: false, access: { has: function (obj) { return "SimpleLogger" in obj; }, get: function (obj) { return obj.SimpleLogger; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+        _serId_decorators = [readOnly];
+        _greet_decorators = [LogMethod];
+        __esDecorate(_classThis, null, _serId_decorators, { kind: "accessor", name: "serId", static: false, private: false, access: { has: function (obj) { return "serId" in obj; }, get: function (obj) { return obj.serId; }, set: function (obj, value) { obj.serId = value; } }, metadata: _metadata }, _serId_initializers, _serId_extraInitializers);
+        __esDecorate(_classThis, null, _greet_decorators, { kind: "method", name: "greet", static: false, private: false, access: { has: function (obj) { return "greet" in obj; }, get: function (obj) { return obj.greet; } }, metadata: _metadata }, null, _instanceExtraInitializers);
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
         MyTestClass = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
@@ -79,4 +139,7 @@ var MyTestClass = function () {
     return MyTestClass = _classThis;
 }();
 var tester = new MyTestClass(14, '51 sticks');
+console.log(tester.serId);
+tester.greet();
+// tester.serId = 488;
 var testertwo = new MyTestClass(15, 'Hopping');
