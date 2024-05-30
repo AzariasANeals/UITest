@@ -47,7 +47,7 @@ function readOnly<This, Return, Result>(
 
 @SimpleLogger
 class MyTestClass{
-    @readOnly accessor serId: number = 243;
+    @readOnly accessor serId: number = 555;
 
     id: number;
     value: string;
@@ -61,17 +61,19 @@ class MyTestClass{
     
     @LogMethod
     greet() {
-      return "Hello, " + this.value;
+      return "Hello, this is the method decorator:  " + this.value;
     }
     
-   getValue():string{
-    return this.value;
-   }
 }
 
-let tester = new MyTestClass(14, '51 sticks');
+// Calling MyTestClass
+let tester = new MyTestClass(1, 'First Instantiation');
+let testertwo = new MyTestClass(2, 'Second Instantiation');
+
+// This shows a console log of my ReadOnly property value
 console.log(tester.serId);
-tester.greet();
-// tester.serId = 488;
-let testertwo = new MyTestClass(15, 'Hopping');
+console.log(tester.greet());
+
+//Notice that if I set it to a value other than "555", it will show an error.
+//tester.serId = 444;
 

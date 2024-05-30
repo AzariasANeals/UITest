@@ -102,7 +102,7 @@ var MyTestClass = function () {
     var _greet_decorators;
     var MyTestClass = _classThis = /** @class */ (function () {
         function MyTestClass_1(id, v) {
-            _MyTestClass_serId_accessor_storage.set(this, (__runInitializers(this, _instanceExtraInitializers), __runInitializers(this, _serId_initializers, 243)));
+            _MyTestClass_serId_accessor_storage.set(this, (__runInitializers(this, _instanceExtraInitializers), __runInitializers(this, _serId_initializers, 555)));
             this.id = __runInitializers(this, _serId_extraInitializers);
             this.id = id;
             this.value = v;
@@ -116,10 +116,7 @@ var MyTestClass = function () {
             configurable: true
         });
         MyTestClass_1.prototype.greet = function () {
-            return "Hello, " + this.value;
-        };
-        MyTestClass_1.prototype.getValue = function () {
-            return this.value;
+            return "Hello, this is the method decorator:  " + this.value;
         };
         return MyTestClass_1;
     }());
@@ -138,8 +135,11 @@ var MyTestClass = function () {
     })();
     return MyTestClass = _classThis;
 }();
-var tester = new MyTestClass(14, '51 sticks');
+// Calling MyTestClass
+var tester = new MyTestClass(1, 'First Instantiation');
+var testertwo = new MyTestClass(2, 'Second Instantiation');
+// This shows a console log of my ReadOnly property value
 console.log(tester.serId);
-tester.greet();
-// tester.serId = 488;
-var testertwo = new MyTestClass(15, 'Hopping');
+console.log(tester.greet());
+//Notice that if I set it to a value other than "555", it will show an error.
+//tester.serId = 444;
